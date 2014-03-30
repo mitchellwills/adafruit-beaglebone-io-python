@@ -1,0 +1,4 @@
+KERNEL=="gpio*", SUBSYSTEM=="gpio", ACTION=="add", PROGRAM="/bin/sh -c 'chown -R ubuntu:gpio /sys/class/gpio'"
+KERNEL=="gpio*", SUBSYSTEM=="gpio", ACTION=="add", PROGRAM="/bin/sh -c 'chown -R ubuntu:gpio /sys/devices/virtual/gpio/'"
+SUBSYSTEM=="leds", ACTION=="add", PROGRAM="/bin/sh -c 'chown -R ubuntu:gpio /sys/class/leds'"
+SUBSYSTEM=="leds", ACTION=="add", PROGRAM="/bin/sh -c 'chown -R ubuntu:gpio /sys/devices/ocp.3/gpio-leds.8/leds/'"

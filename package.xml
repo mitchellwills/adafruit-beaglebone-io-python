@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package>
+  <name>beaglebone_io_ros</name>
+  <version>0.0.0</version>
+  <description>The beaglebone_io_ros package</description>
+
+  <maintainer email="mitchellweb1@gmail.com">Mitchell Wills</maintainer>
+
+  <license>MIT</license>
+
+  <url type="website">https://github.com/mitchellwills/adafruit-beaglebone-io-python-ros</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>rospy</build_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>rospy</run_depend>
+
+
+  <export>
+  </export>
+</package>

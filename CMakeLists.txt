@@ -9,7 +9,7 @@ find_package(PythonLibs REQUIRED)
 
 catkin_package(
    INCLUDE_DIRS source
-   LIBRARIES beaglebone_io_ros beaglebone_io_ros_python
+   LIBRARIES beaglebone_io_ros
    CATKIN_DEPENDS roscpp rospy
 )
 
@@ -31,6 +31,9 @@ add_library(beaglebone_io_ros
   source/event_gpio.c
   source/spimodule.c
 )
+target_link_libraries(beaglebone_io_ros
+  ${PYTHON_LIBRARIES}
+)
 
 add_library(beaglebone_io_ros_python
   source/py_adc.c
@@ -40,6 +43,7 @@ add_library(beaglebone_io_ros_python
 )
 target_link_libraries(beaglebone_io_ros_python
   beaglebone_io_ros
+  ${PYTHON_LIBRARIES}
 )
 
 

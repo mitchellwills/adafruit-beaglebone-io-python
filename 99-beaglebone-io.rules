@@ -2,3 +2,6 @@ KERNEL=="gpio*", SUBSYSTEM=="gpio", ACTION=="add", PROGRAM="/bin/sh -c 'chown -R
 KERNEL=="gpio*", SUBSYSTEM=="gpio", ACTION=="add", PROGRAM="/bin/sh -c 'chown -R ubuntu:gpio /sys/devices/virtual/gpio/'"
 SUBSYSTEM=="leds", ACTION=="add", PROGRAM="/bin/sh -c 'chown -R ubuntu:gpio /sys/class/leds'"
 SUBSYSTEM=="leds", ACTION=="add", PROGRAM="/bin/sh -c 'chown -R ubuntu:gpio /sys/devices/ocp.3/gpio-leds.8/leds/'"
+KERNEL=="bone_capemgr*", SUBSYSTEM=="platform", ACTION=="add", PROGRAM="/bin/sh -c 'chown -R ubuntu:gpio /sys/devices/bone_capemgr.9'"
+KERNEL=="pwm_test*", SUBSYSTEM=="platform", ACTION=="add", PROGRAM="/bin/sh -c 'chown -R ubuntu:gpio /sys/devices/ocp.3/pwm_test_*'", OWNER=ubuntu, GROUP=gpio
+KERNEL=="pwm_test*", SUBSYSTEM=="platform", ACTION=="add", PROGRAM="/bin/sh -c 'chown -R ubuntu:gpio /sys/class/pwm'", OWNER=ubuntu, GROUP=gpio

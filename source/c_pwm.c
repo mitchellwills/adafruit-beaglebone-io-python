@@ -78,21 +78,25 @@ int initialize_pwm(void)
 }
 
 int pwm_set_frequency(const char *key, float freq) {
-    int len;
-    char buffer[20];
     unsigned long period_ns;
-    struct pwm_exp *pwm;
 
     if (freq <= 0.0)
         return -1;
+
+    period_ns = (unsigned long)(1e9 / freq);
+
+    return pwm_set_period(key, period_ns);
+}
+int pwm_set_period(const char *key, unsigned long period_ns) {
+    int len;
+    char buffer[20];
+    struct pwm_exp *pwm;
 
     pwm = lookup_exported_pwm(key);
 
     if (pwm == NULL) {
         return -1;
     }
-
-    period_ns = (unsigned long)(1e9 / freq);
 
     if (period_ns != pwm->period_ns) {
         pwm->period_ns = period_ns;
@@ -122,12 +126,10 @@ int pwm_set_polarity(const char *key, int polarity) {
 }
 
 int pwm_set_duty_cycle(const char *key, float duty) {
-    int len;
-    char buffer[20];
-    struct pwm_exp *pwm;
-
     if (duty < 0.0 || duty > 100.0)
         return -1;
+
+    struct pwm_exp *pwm;
 
     pwm = lookup_exported_pwm(key);
 
@@ -135,7 +137,22 @@ int pwm_set_duty_cycle(const char *key, float duty) {
         return -1;
     }    
 
-    pwm->duty = (unsigned long)(pwm->period_ns * (duty / 100.0));
+    unsigned long duty_ns = (unsigned long)(pwm->period_ns * (duty / 100.0));
+
+    return pwm_set_duty_time(key, duty_ns);
+}
+int pwm_set_duty_time(const char *key, unsigned long duty_ns) {
+    int len;
+    char buffer[20];
+    struct pwm_exp *pwm;
+
+    pwm = lookup_exported_pwm(key);
+
+    if (pwm == NULL) {
+        return -1;
+    }    
+
+    pwm->duty = duty_ns;
 
     len = snprintf(buffer, sizeof(buffer), "%lu", pwm->duty);
     write(pwm->duty_fd, buffer, len);
@@ -162,6 +179,7 @@ int pwm_start(const char *key, float duty, float freq, int polarity)
     
 
     if (!load_device_tree(fragment)) {
+      fprintf(stderr, "Error enabling pin");
         //error enabling pin for pwm
         return -1;
     }
@@ -176,6 +194,7 @@ int pwm_start(const char *key, float duty, float freq, int polarity)
     snprintf(period_path, sizeof(period_path), "%s/period", pwm_test_path);
     snprintf(duty_path, sizeof(duty_path), "%s/duty", pwm_test_path);
     snprintf(polarity_path, sizeof(polarity_path), "%s/polarity", pwm_test_path);
+
 
     //add period and duty fd to pwm list    
     if ((period_fd = open(period_path, O_RDWR)) < 0)

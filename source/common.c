@@ -344,7 +344,9 @@ int load_device_tree(const char *name)
 
     file = fopen(slots, "r+");
     if (!file) {
-        PyErr_SetFromErrnoWithFilename(PyExc_IOError, slots);
+        //PyErr_SetFromErrnoWithFilename(PyExc_IOError, slots);
+        perror("Error loading device tree");
+        printf("\t Error opening file: %s\n", slots);
         return 0;
     }
 
@@ -377,7 +379,9 @@ int unload_device_tree(const char *name)
 
     file = fopen(slots, "r+");
     if (!file) {
-        PyErr_SetFromErrnoWithFilename(PyExc_IOError, slots);
+        //PyErr_SetFromErrnoWithFilename(PyExc_IOError, slots);
+        perror("Error unloading device tree");
+        printf("\t Error opening file: %s\n", slots);
         return 0;
     }
 
